@@ -1,0 +1,19 @@
+
+#inProg{
+	color: red;
+	font-style: italic;
+}
+
+#courseworkExpand{
+	text-decoration: underline;
+}
+
+image{
+	width: 500px;
+	height: 500px;
+}
+
+div{
+	font-family: courier;
+	
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="author" content="Gracie Gilbert">
+		<title>Matching Game</title>
+		<style>
+			div{
+				position: absolute;
+				width: 50%;
+				height: 50%;
+			}
+			img{
+				position: absolute;
+			}
+			#rightSide{
+				left: 50%;
+				border-left: 1px solid black;
+
+			}
+
+		</style>
+	</head>
+
+
+	<body id="theBody" onload="generateFaces()">
+		
+		<h1>Matching Game</h1>
+		<p id="instructions">Click on the extra smiling face on the left</p>
+
+		<div id="leftSide"></div>
+		<div id="rightSide"></div>
+
+
+		<script>
+		//part 3 generates left and right sides of images
+		var numberOfFaces = 5;
+		var theLeftSide = document.getElementById("leftSide");
+		var imgHeight = 100, imgWidth = 100;
+		var theRightSide = document.getElementById("rightSide");
+		var theBody = document.getElementsByTagName("body")[0];
+
+		function generateFaces(){
+			
+			//generate faces and place on left side
+			for(var i=0; i<numberOfFaces; i++){
+				var img = document.createElement("img");
+				img.src = "http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
+				
+				var top_placement = Math.random() * (theLeftSide.offsetHeight - imgHeight + 1);
+				console.log("range from 0 to " + (theLeftSide.offsetHeight - imgHeight));
+				top_placement = Math.floor(top_placement);
+				img.style.top = top_placement + "px";
+				var left_placement = Math.random() * (theLeftSide.offsetWidth - imgWidth + 1);
+				console.log("range from 0 to " + (theLeftSide.offsetWidth - imgWidth));
+				left_placement = Math.floor(left_placement);
+				img.style.left = left_placement + "px";
+				theLeftSide.appendChild(img);
+
+			}
+
+			//copy left side, delete last child, and then add to the right side
+			var leftSideImages = theLeftSide.cloneNode(true);
+
+			leftSideImages.removeChild(leftSideImages.lastChild);
+			theRightSide.appendChild(leftSideImages);
+
+			//add event handler to left last child
+			theLeftSide.lastChild.onclick = function nextLevel(event){
+				event.stopPropagation(); //stop the bubbling of application to other elements
+
+				
+
+				//remove nodes from both sides
+				while(theLeftSide.firstChild){
+					theLeftSide.removeChild(theLeftSide.firstChild);
+				}
+				while(theRightSide.firstChild){
+					theRightSide.removeChild(theRightSide.firstChild);
+				}
+
+				//start next level
+				numberOfFaces += 5;
+				generateFaces();
+			};
+
+		}
+
+
+		theBody.onclick = function gameOver(){
+			alert("Game over!");
+
+			theBody.onclick = null;
+			theLeftSide.lastChild.onclick = null;
+		};
+
+
+		</script>
+	</body>
+
+
+</html>
